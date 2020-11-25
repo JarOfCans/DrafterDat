@@ -13,12 +13,12 @@ public class ResetButton extends ClickableButton {
 
 	@Override
 	public int getX() {
-		return 1200;
+		return MainClass.screenWidth-120;
 	}
 
 	@Override
 	public int getY() {
-		return MainClass.screenHeight - 120;
+		return MainClass.screenHeight-60;
 	}
 
 	@Override

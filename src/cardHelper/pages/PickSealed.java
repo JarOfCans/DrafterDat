@@ -1,7 +1,6 @@
 package cardHelper.pages;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -12,29 +11,30 @@ import cardHelper.MainClass;
 import cardHelper.MainClass.Pages;
 import cardHelper.card.Card;
 import cardHelper.pack.Pack;
+import cardHelper.pages.pickDraft.SetButton;
 import cardHelper.toolBox.Clickable;
-import cardHelper.toolBox.ClickableButton;
+import cardHelper.pages.pickSealed.*;
 
 public class PickSealed extends Page {
 
 	public PickSealed(MainClass main) {
 		super(main, Pages.pickSealed);
 		for (int i = 0; i < main.setList.size();i++) {
-			click.add(new ClickableButton(main.setList.get(i).getName(), 30+100*(i%8), 60+80*(i/8), 90, 50, new Font("Arial",Font.PLAIN,20), Color.decode("#00F0EC")));
+			click.add(new SetButton(main.setList.get(i).getName(), i));
 		//cellar.fillRect(150,50,90,50);
 		}
-		click.add(new ClickableButton("Clear",30+100*(6),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Generate",30+100*(8),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
+		click.add(new ClearButton());
+		click.add(new GenerateButton());
 	}
 
 	@Override
 	public void draw(Graphics cellar) {
 		cellar.setColor(Color.decode("#000000"));
 		//Draws the selected sets 
-		cellar.drawString("Pick a Set", screenWidth*4/9, 50);
+		cellar.drawString("Pick a Set", MainClass.screenWidth*4/9, 50);
 		
 		for (int i = 0;i < main.packschoosen.size();i++){
-			cellar.drawString(main.packschoosen.get(i).getName(), screenWidth*i/7+100,screenHeight-100);
+			cellar.drawString(main.packschoosen.get(i).getName(), MainClass.screenWidth*i/7+100,MainClass.screenHeight-100);
 		}
 		
 		cellar.drawString("Current Player Generated: " + main.getSealedGenerated(), 100, 48);

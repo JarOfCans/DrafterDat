@@ -1,7 +1,6 @@
 package cardHelper.pages;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -14,11 +13,10 @@ import cardHelper.MainClass;
 import cardHelper.Settings;
 import cardHelper.MainClass.Pages;
 import cardHelper.card.Card;
+import cardHelper.pages.draft.*;
 import cardHelper.player.Player;
 import cardHelper.table.ClassicDraftTable;
 import cardHelper.toolBox.Clickable;
-import cardHelper.toolBox.ClickableCard;
-import cardHelper.toolBox.HoverableCardName;
 
 public class Draft extends Page {
 	/**
@@ -33,6 +31,7 @@ public class Draft extends Page {
 
 	@Override
 	public void draw(Graphics cellar) {
+		//System.out.println(MainClass.screenWidth);
 		if (table!=null) {
 		if (table.waitplayer==true) {
 				Player player = table.players.get(table.wait);
@@ -50,7 +49,7 @@ public class Draft extends Page {
 							String hoi=imageFilter(table.waitPack().getCard(i).getName(),".full.jpg");
 							try
 							{
-								click.add(new ClickableCard(i, makeImage((hoi)),20+180*(i%5),20+250*(i/5),180,250));
+								click.add(new DFCard(i, makeImage((hoi))));
 							}
 							catch (NullPointerException npe)
 							{
@@ -79,54 +78,55 @@ public class Draft extends Page {
 					//Print cards picked on side.
 					for (int i = 0; i < player.cardsPicked.size(); i++)
 					{
-						click.add(new HoverableCardName(player.cardsPicked.get(i), screenWidth - 245, i*20+50, 245, 20));
+						click.add(new DFHoverCards(player.cardsPicked.get(i), i));
 					}
 				}
-				for (Clickable clack:click) {
+				/*for (Clickable clack:click) {
 					clack.draw(cellar);
-				}
-				
-			cellar.setFont(new Font("Arial",Font.PLAIN,20));
+				}*/
+			
+			
+			cellar.setFont(MainClass.BASICFONT);
 			cellar.setColor(Color.decode("#000000"));
+			int x = -1;
+			if (MainClass.screenWidth > 1580) {
+				x = 930;
+			}
+			else if (MainClass.screenWidth < 1420 && MainClass.screenWidth > 1230) {
+				x = DFCard.MODIFY_X_SIZE*4 + 30;
+			}
+			if (x > 0) {
 			for (int i = 1; i <=6;i++){
 				if (i <= 5){
-					cellar.drawString(Integer.toString(i), 930, (i)*60+8);
+					cellar.drawString(Integer.toString(i), x, (i)*60+8);
 				}
 				else{
-					cellar.drawString("6+", 930, 360);
+					cellar.drawString("6+", x, 360);
 				}
 				cellar.setColor(Color.decode("#00D60E"));
 				if (player.greatestCMC()>0){
-					cellar.fillRect(970, (i)*60-30,table.players.get(table.wait).getCMC(i)*120/(table.players.get(table.wait).greatestCMC()), 60);
+					cellar.fillRect(x+40, (i)*60-30,table.players.get(table.wait).getCMC(i)*120/(table.players.get(table.wait).greatestCMC()), 60);
 				}
 				cellar.setColor(Color.decode("#000000"));
-				cellar.drawString(Integer.toString(table.players.get(table.wait).getCMC(i)),1000,(i)*60+8);
+				cellar.drawString(Integer.toString(table.players.get(table.wait).getCMC(i)),x + 70,(i)*60+8);
 			}
-			cellar.drawString(Integer.toString(table.players.get(table.wait).chooseCard()+1),screenWidth-475,screenHeight/2);
+			}
+			
+			
+			cellar.drawString(Integer.toString(table.players.get(table.wait).chooseCard()+1),MainClass.screenWidth-475,420);
 			int m = 0;
 			for (int i = 0; i <table.waitPack().numOfCards();i++,m++){
 				Card cardHolder = player.myPack().getCard(i);
-				cellar.drawString((m+1) +": "+(int)table.players.get(table.wait).getScore(m,true)+"("+cardHolder.winrateString()+", "+cardHolder.getqt()+")",screenWidth-445,i*40+100);
+				cellar.drawString((m+1) +": "+(int)table.players.get(table.wait).getScore(m,true)+"("+cardHolder.winrateString()+", "+cardHolder.getqt()+")",MainClass.screenWidth-445,i*40+40);
 			}
 			m = 0;
-			//Picked card stats and view
 			cellar.setColor(Color.BLACK);
-			//for (Card hoi:table.players.get(table.wait).cardsPicked) {
-				//Cards picked
-				/*cellar.setColor(Color.BLACK);
-				cellar.drawString(hoi.cost+" "+hoi.getName(), screenWidth-240, m*20+50);
-				cellar.setColor(Color.DARK_GRAY);//TODO Colorcode based on cards color
-				cellar.drawLine(screenWidth-245, m*20+52, screenWidth-245, (m-1)*20+67);//Y line
-				cellar.drawLine(screenWidth-245, m*20+52, screenWidth, m*20+52);//X line
-				m++;*/
-				//Moved to clickables
-			//}
-			cellar.drawString("W= " + table.players.get(table.wait).White, 1000, 600);
-			cellar.drawString("U= " + table.players.get(table.wait).Blue, 1000, 620);
-			cellar.drawString("B= " + table.players.get(table.wait).Black, 1000, 640);
-			cellar.drawString("R= " + table.players.get(table.wait).Red, 1000, 660);
-			cellar.drawString("G= " + table.players.get(table.wait).Green, 1000, 680);
-			cellar.drawString("Player= "+table.wait,1000,700);
+			/*cellar.drawString("W= " + table.players.get(table.wait).White, MainClass.screenWidth - 200, 600);
+			cellar.drawString("U= " + table.players.get(table.wait).Blue, MainClass.screenWidth - 200, 620);
+			cellar.drawString("B= " + table.players.get(table.wait).Black, MainClass.screenWidth - 200, 640);
+			cellar.drawString("R= " + table.players.get(table.wait).Red, MainClass.screenWidth - 200, 660);
+			cellar.drawString("G= " + table.players.get(table.wait).Green, MainClass.screenWidth - 200, 680);*/
+			//cellar.drawString("Player= "+table.wait,1000,700);
 		//TODO make setting to turn off/on
 		if (table.waitPack().pickedNames.size()>0) {
 			if (table.getNewPack()) {
@@ -134,12 +134,22 @@ public class Draft extends Page {
 			}
 			//Seen Card names
 			int base = 0;
+			if (MainClass.screenWidth > DFCard.MODIFY_SIZE) {
 			for (int i = table.waitPack().numOfCards(); i < table.waitPack().numOfCards()+table.waitPack().pickedNames.size();i++) {
-				//System.out.println(intnumbers.get(base));
 				cellar.drawString(table.waitPack().pickedNames.
 						get(intnumbers.get(base++)),
 						25+180*((table.waitPack().numOfCards()+base-1)%5),
 						40+50*(table.waitPack().numOfCards()+base-1));
+			}
+			} else {
+				cellar.setFont(MainClass.SMOLFONT);
+				for (int i = table.waitPack().numOfCards(); i < table.waitPack().numOfCards()+table.waitPack().pickedNames.size();i++) {
+					cellar.drawString(table.waitPack().pickedNames.
+							get(intnumbers.get(base++)),
+							15+DFCard.MODIFY_X_SIZE*((table.waitPack().numOfCards()+base-1)%4),
+							40+(DFCard.MODIFY_Y_SIZE/4)*(table.waitPack().numOfCards()+base-1));
+				}
+				cellar.setFont(MainClass.BASICFONT);
 			}
 		}
 		for (int i = 0; i < table.players.size(); i++)
@@ -154,25 +164,16 @@ public class Draft extends Page {
 			}
 			if (thePlayer.isPlayer)
 			{
-				cellar.drawString(String.format("P%d = ", i), 1000, 720 + (i*20));
-				thePlayer.drawColorBar(1048, 704 + (i*20), 100, 18, cellar);
+				cellar.drawString(String.format("P%d = ", i), MainClass.screenWidth - 465, 640 + (i*20));
+				thePlayer.drawColorBar(MainClass.screenWidth - 417, 624 + (i*20), 100, 18, cellar);
 			}
 			else
 			{
-				cellar.drawString(String.format("P%d = AI", i), 1000, 720 + (i*20));
+				cellar.drawString(String.format("P%d = AI", i), MainClass.screenWidth - 455, 640 + (i*20));
 			}
 		}
 		table.setNewPack(false);
 		}
-			/*if (x1>=xtrue&&hover>=0) {
-				if (hover<10) {
-					cellar.drawImage(table.players.get(table.wait).getPack().getCard(hover).getPic(main.flip),20+180+(180*((hover)%5)),(int)(20+(250)*Math.floor((hover)/5)),360,500,this);
-				}
-				else {
-					cellar.drawImage(player[0].getPack().getCard(hover).getPic(main.flip),20+180+(180*((hover)%5)),(int)(20+(250)*Math.floor((hover)/5))-250,360,500,this);
-				}
-			}*/
-			//System.out.println(player[0].chooseCard()+1);
 	}
 	}
 
@@ -256,48 +257,5 @@ public class Draft extends Page {
 	}
 	public void numshuffle() {
 		Collections.shuffle(intnumbers);
-	}
-	/**
-	 * Checks the picked cards (on the side of the screen), will paint if one is being hovered.
-	 */
-	@Override
-	protected void pageHoverCheck(int x, int y,Graphics cellar)
-	{
-		//TODO allow delay setting.
-		int cardHovered = cardIndex(x, y);
-		//System.out.println(cardHovered);
-		if (cardHovered >= 0)
-		{
-			int top = cardHovered * 20 + 50;
-			int left = screenWidth - 240;
-			int height = (int) (250 * imgMulti);
-			int width = (int) (180 * imgMulti);
-			Image img = table.players.get(table.wait).cardsPicked.get(cardHovered).getPic(false);
-			if (top < main.SCREENHEIGHT - height) {
-				cellar.drawImage(img,left+width,top,(int)(width*imgMulti),(int)(height*imgMulti),main);
-			}
-			else {
-				cellar.drawImage(img,left+width,(int)(top-height*(imgMulti-1)),(int)(width*imgMulti),(int)(height*imgMulti),main);
-			}
-		}
-	}
-	/**
-	 * Helper method to find which card is currently being hovered over, if any.
-	 * @param x X coordinate of the mouse.
-	 * @param y Y coordinate of the mouse.
-	 * @return An index of a potential hover card, -1 if it does not exist or the card has
-	 * yet to be added.
-	 */
-	public int cardIndex(int x , int y)
-	{
-		if (x > screenWidth - 240)
-		{
-			int checkOutput = (x - 50) / 20;
-			if (checkOutput < table.players.get(table.wait).cardsPicked.size() && checkOutput >= 0)
-			{
-				return checkOutput;
-			}
-		}
-		return -1;
 	}
 }

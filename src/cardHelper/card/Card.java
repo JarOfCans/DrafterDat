@@ -64,7 +64,7 @@ public class Card {
 		{
 			return String.format("%d%s", this.winrate(), "%");
 		}
-		return "Untested";
+		return "-%";
 	}
 	public ArrayList<String> getArchetypes(){
 		return archetypes;
@@ -270,7 +270,8 @@ public class Card {
 				}
 			}
 		}
-		return doom;}
+		return doom;
+	}
 	public boolean monoGreenable(){
 		boolean doom = false;
 		for (int i = 0; i < cost.length();i++) {

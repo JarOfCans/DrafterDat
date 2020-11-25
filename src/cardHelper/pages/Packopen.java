@@ -10,8 +10,7 @@ import cardHelper.card.Card;
 import cardHelper.pack.Pack;
 import cardHelper.set.Set;
 import cardHelper.toolBox.Clickable;
-import cardHelper.toolBox.ClickableButton;
-import cardHelper.toolBox.ClickableCard;
+import cardHelper.pages.packOpen.*;
 
 public class Packopen extends Page {
 	public Set theSet;
@@ -32,7 +31,7 @@ public class Packopen extends Page {
 			Color newColor = Color.black;
 			cellar.setColor(Color.black);
 			Card hoi = apack.getCard(i);
-			cellar.drawString((m+1) +"."+hoi.getName()+": "+hoi.getq1()+","+hoi.getq2()+","+hoi.getq3()+","+hoi.getq4()+"= "+hoi.getqt(),screenWidth-450,i*40+100);
+			cellar.drawString((m+1) +"."+hoi.getName()+": "+hoi.getq1()+","+hoi.getq2()+","+hoi.getq3()+","+hoi.getq4()+"= "+hoi.getqt(),MainClass.screenWidth-450,i*40+100);
 			int value = hoi.getqt();
 			if (hoi.getq1() == 4 && hoi.getq2() == 4 && hoi.getq3() == 4 && hoi.getq4() == 4)
 			{
@@ -65,10 +64,10 @@ public class Packopen extends Page {
 				}
 			}
 			cellar.setColor(newColor);
-			cellar.fillRect(screenWidth-500-width, i*40+90, width, 15);
+			cellar.fillRect(MainClass.screenWidth-500-width, i*40+90, width, 15);
 		}
 		cellar.setColor(Color.black);
-		cellar.drawString("Currently: " + sortValue, screenWidth - 165, 780);
+		cellar.drawString("Currently: " + sortValue, MainClass.screenWidth - 165, 780);
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class Packopen extends Page {
 		case "New Pack":
 			setPack(theSet.buildpack());
 			break;
-		case "Change Sortable":
+		case "Toggle Sort":
 			sortValue = !sortValue;
 			Settings.setSettingValue("SortLoosePack", String.valueOf(sortValue));
 			properSort();
@@ -116,10 +115,10 @@ public class Packopen extends Page {
 		click.clear();
 		int i = 0;
 		for (Card hoi: apack.getCards()) {
-			click.add(new ClickableCard(i, hoi.getPic(false),20+180*(i%5),20+250*(i++/5),180,250));
+			click.add(new PackCard(i++, hoi.getPic(false)));
 		}
-		click.add(new ClickableButton("New Pack", screenWidth-450,700, 100, 50, MainClass.BASICFONT, Color.green));
-		click.add(new ClickableButton("Change Sortable", screenWidth - 165, 720, 155, 40, MainClass.BASICFONT, Color.green));
+		click.add(new NewPackButton());
+		click.add(new ToggleSortButton());
 	}
 	/**
 	 * Sorts the pack based on the sortValue value and resets clickables.

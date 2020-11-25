@@ -78,13 +78,12 @@ public abstract class Page {
 						int width = (int) (hoi.getX1()*imgMulti);
 						if (hoi instanceof HoverableCardName)
 						{
-							top = hoi.getY();
 							left = hoi.getX() - 5;
 							height = (int) (250 * imgMulti);
 							width = (int) (180 * imgMulti);
 						}
 						if (top + height > MainClass.screenHeight) {
-							top = top - height;
+							top = top - height + hoi.getY1();
 						}
 						if (left + width > MainClass.screenWidth) {
 							left = left - width;

@@ -1,8 +1,6 @@
 package cardHelper.pages;
 
 import java.awt.Color;
-import java.awt.FileDialog;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.io.File;
 
@@ -13,44 +11,41 @@ import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import java.io.File;
-
 import cardHelper.MainClass;
 import cardHelper.MainClass.Pages;
 import cardHelper.card.Card;
 import cardHelper.set.Set;
 import cardHelper.table.ClassicDraftTable;
 import cardHelper.toolBox.Clickable;
-import cardHelper.toolBox.ClickableButton;
+import cardHelper.pages.pickDraft.*;
 
 public class PickDraft extends Page {
-public boolean[] isPlayering = new boolean[]{true,false,false,false,false,false,false,false};
+	public static final int BUTTON_ROW_FROM_BOTTOM = 200;
+	public boolean[] isPlayering = new boolean[]{true,false,false,false,false,false,false,false};
 	public PickDraft(MainClass main) {
 		super(main, Pages.pickDraft);
 		for (int i = 0; i < main.setList.size();i++) {
-			click.add(new ClickableButton(main.setList.get(i).getName(), 30+100*(i%8), 60+80*(i/8), 90, 50, new Font("Arial",Font.PLAIN,20), Color.decode("#00F0EC")));
-		//cellar.fillRect(150,50,90,50);
+			click.add(new SetButton(main.setList.get(i).getName(), i));
 		}
 		for (int i = 0; i < 8; i++) {
-			click.add(new ClickableButton("Player "+i,100*i+30,760,90,50,new Font("Arial",Font.PLAIN,20), Color.decode("#00F0EC")));
+			click.add(new PDPlayerButton(i));
 		}
-		click.add(new ClickableButton("Clear",30+100*(6),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Start",30+100*(8),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Record Win",30+100*(2)-15,60+80*(8),120,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Record Loss",30+100*(4)-15,60+80*(8),120,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Reset Wins",30+100*(0)-15,60+80*(8),120,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
+		click.add(new PDClearButton());
+		click.add(new PDStartButton());
+		click.add(new PDRecordWinButton());
+		click.add(new PDRecordLossButton());
+		click.add(new PDResetWinsButton());
 	}
 
 	@Override
 	public void draw(Graphics cellar) {
 		cellar.setColor(Color.decode("#000000"));
-		cellar.drawString("Pick a Set", screenWidth*4/9, 50);
+		cellar.drawString("Pick a Set", MainClass.screenWidth*4/9, 50);
 			for (int i = 0;i < main.packschoosen.size();i++){
-			cellar.drawString("Pack "+i +": "+main.packschoosen.get(i).getName(), screenWidth*i/8+850,screenHeight-190);
+			cellar.drawString("Pack "+i +": "+main.packschoosen.get(i).getName(), i*200+50,MainClass.screenHeight-BUTTON_ROW_FROM_BOTTOM-25);
 			}
 			for (int i = 0; i < 8; i++) {
-				cellar.drawString(playerno(isPlayering[i]), 100*i+30, 840);
+				cellar.drawString(playerno(isPlayering[i]), 100*i+30, MainClass.screenHeight - 60);
 			}
 	}
 

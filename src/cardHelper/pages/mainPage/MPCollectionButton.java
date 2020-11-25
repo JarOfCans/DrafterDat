@@ -21,12 +21,12 @@ public class MPCollectionButton extends ClickableButton {
 
 	@Override
 	public int getX1() {
-		return 100;
+		return 120;
 	}
 
 	@Override
 	public int getY1() {
-		return 50;
+		return 60;
 	}
 
 }

@@ -7,11 +7,11 @@ public class MainPageOpenPackButton extends ClickableButton {
 
 	public MainPageOpenPackButton() {
 		super("Open Pack",MainClass.BASICFONT,MainClass.DDGREEN);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public int getX() {
+		System.out.println(MainClass.screenWidth);
 		return MainClass.screenWidth*2/3;
 	}
 
@@ -22,12 +22,12 @@ public class MainPageOpenPackButton extends ClickableButton {
 
 	@Override
 	public int getX1() {
-		return 100;
+		return 120;
 	}
 
 	@Override
 	public int getY1() {
-		return 50;
+		return 60;
 	}
 
 }

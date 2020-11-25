@@ -2,15 +2,13 @@ package cardHelper.toolBox;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.ImageObserver;
-
 import javax.swing.ImageIcon;
 
-public class ClickableCard extends Clickable {
+public abstract class ClickableCard extends Clickable {
 	/**
 	 * Card id number.
 	 */
-	int card;
+	protected int card;
 	
 	/**
 	 * Constructor for a clickable card object.
@@ -21,26 +19,18 @@ public class ClickableCard extends Clickable {
 	 * @param x1 width of the clickable card.
 	 * @param y1 height of the clickable card.
 	 */
-	public ClickableCard(int cardnum,Image image, int x, int y, int x1, int y1) throws NullPointerException {
+	public ClickableCard(int cardnum,Image image) throws NullPointerException {
 		if (image == null)
 		{
 			throw new NullPointerException("Error: Passed null image in clickable card.");
 		}
-		this.x = x;
-		this.x1 = x1;
-		this.y = y;
-		this.y1 = y1;
 		this.image = image;
 		this.card=cardnum;
 		word=Integer.toString(cardnum);
 		type="card";
 	}
-	public ClickableCard(int cardnum, int x, int y, int x1, int y1)
+	public ClickableCard(int cardnum)
 	{
-		this.x = x;
-		this.x1 = x1;
-		this.y = y;
-		this.y1 = y1;
 		this.card=cardnum;
 		word=Integer.toString(cardnum);
 		type="card";
@@ -48,7 +38,7 @@ public class ClickableCard extends Clickable {
 	}
 	public void draw(Graphics g) {
 		if (visible) {
-			g.drawImage(image,x,y,x1,y1,null);
+			g.drawImage(image,getX(),getY(),getX1(),getY1(),null);
 		}
 	}
 	public Image makeImage(String hi){

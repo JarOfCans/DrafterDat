@@ -13,6 +13,8 @@ import cardHelper.MainClass;
 import cardHelper.MainClass.Pages;
 import cardHelper.Settings;
 import cardHelper.card.Card;
+import cardHelper.pages.pickChaos.*;
+import cardHelper.pages.pickDraft.SetButton;
 import cardHelper.set.Set;
 import cardHelper.toolBox.Clickable;
 import cardHelper.toolBox.ClickableButton;
@@ -26,10 +28,10 @@ public class PickChaos extends Page {
 	public PickChaos(MainClass main) {
 		super(main, Pages.pickChaos);
 		for (int i = 0; i < main.setList.size();i++) {
-			click.add(new ClickableButton(main.setList.get(i).getName(), 30+100*(i%8), 60+80*(i/8), 90, 50, new Font("Arial",Font.PLAIN,20), Color.decode("#00F0EC")));
+			click.add(new SetButton(main.setList.get(i).getName(), i));
 		//cellar.fillRect(150,50,90,50);
 		}
-		textBox = new ClickableTextBox("Archetype Box", 700, 825, 500, 30, new Font("Arial",Font.PLAIN,20), Color.BLACK);
+		textBox = new ArchetypeBox();
 		click.add(textBox);
 		for (int i = 0; i < 5; i++)
 		{
@@ -43,20 +45,18 @@ public class PickChaos extends Page {
 		}
 		
 		//click.add(new ClickableButton("Clear",30+100*(6),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Generate",30+60*(11),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
+		click.add(new GenerateButton());
 		
-		click.add(new ClickableButton("White",30+60*(0),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Blue",30+60*(2),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Black",30+60*(4),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Red",30+60*(6),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
-		click.add(new ClickableButton("Green",30+60*(8),60+80*(8),90,50,new Font("Arial",Font.PLAIN,20),Color.decode("#00F0EC")));
+		click.add(new ColorButton("White",0));
+		click.add(new ColorButton("Blue",1));
+		click.add(new ColorButton("Black",2));
+		click.add(new ColorButton("Red",3));
+		click.add(new ColorButton("Green",4));
 		lastMadeDeck = "No deck has been generated yet.";
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
 		// Draws the "Selected" if the color is selected
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < 5; i++)
@@ -89,7 +89,6 @@ public class PickChaos extends Page {
 
 	@Override
 	public void onClick(int x, int y, MainClass main) {
-		// TODO Auto-generated method stub
 		String action="none";
 		for (Clickable ping:click) {
 			if (ping.Check(x, y)) {

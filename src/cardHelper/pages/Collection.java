@@ -9,6 +9,7 @@ import cardHelper.MainClass;
 import cardHelper.MainClass.Pages;
 import cardHelper.Settings;
 import cardHelper.card.Card;
+import cardHelper.pages.collection.*;
 import cardHelper.set.Set;
 import cardHelper.toolBox.Clickable;
 import cardHelper.toolBox.ClickableButton;
@@ -20,8 +21,8 @@ public class Collection extends Page {
 	public int viewPage;
 	public int maxPage;
 	public Set viewSet;
-	private int imageHeight = (int)(523/1.5);
-	int imageWidth = (int)(375/1.5);
+	private static int imageHeight = (int)(523/1.5);
+	private static int imageWidth = (int)(375/1.5);
 	private ArrayList<Card> setCards;
 	private int sortIndex;
 	private String [] colorStat;
@@ -51,9 +52,9 @@ public class Collection extends Page {
 	}
 	public void setconstantclicks() {
 		//click.add(new ClickableButton("ListView", imageHeight, imageHeight, imageHeight, imageHeight, main.basicfont, Color.decode("#00F0EC")));
-		click.add(new ClickableTri("Right",new int [] {screenWidth-100,screenWidth-100,screenWidth-20},new int [] {screenHeight/2+40,screenHeight/2-40,screenHeight/2},Color.decode("#07D600")));
-		click.add(new ClickableTri("Left",new int [] {screenWidth-120,screenWidth-120,screenWidth-200},new int [] {screenHeight/2+40,screenHeight/2-40,screenHeight/2},Color.decode("#07D600")));
-		click.add(new ClickableButton("Change Sort", screenWidth - 150, 80, 120, 40, MainClass.BASICFONT, Color.decode("#07D600")));
+		click.add(new CLRightButton());
+		click.add(new CLLeftButton());
+		click.add(new CLSortButton());
 	}
 	@Override
 	public void draw(Graphics cellar) {
@@ -89,7 +90,7 @@ public class Collection extends Page {
 			cellar.drawString("Black:"+colorStat[2], 1200, 140);
 			cellar.drawString("Red:"+colorStat[3], 1200, 160);
 			cellar.drawString("Green:"+colorStat[4], 1200, 180);
-			cellar.drawString(SORT_STYLES[sortIndex], screenWidth - 150, 140);
+			cellar.drawString(SORT_STYLES[sortIndex], MainClass.screenWidth - 150, 140);
 			//TODO
 			/*cellar.setColor(Color.yellow);
 			 * for (int i = 0; i < 10;i++){
@@ -177,7 +178,7 @@ public class Collection extends Page {
 		click.clear();
 		setconstantclicks();
 		for (int i = 0+8*viewPage;i < 8+8*viewPage&&i<setCards.size(); i++) {
-			click.add(new ClickableCard(i, setCards.get(i).getPic(false), 20+(imageWidth*((i%8)%4)),(int)(20+(imageHeight+30)*Math.floor((i%8)/4)),imageWidth, imageHeight));
+			click.add(new CLCard(i, setCards.get(i).getPic(false)));
 		}
 		calculateStats();
 		main.repaint();
@@ -261,5 +262,11 @@ public class Collection extends Page {
 			colorStat[3] = "Error";
 			colorStat[4] = "Error";
 		}
+	}
+	public static int getImageWidth() {
+		return imageWidth;
+	}
+	public static int getImageHeight() {
+		return imageHeight;
 	}
 }

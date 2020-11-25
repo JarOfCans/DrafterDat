@@ -1,25 +1,22 @@
 package cardHelper.toolBox;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
-
-import cardHelper.MainClass;
 import cardHelper.card.Card;
 
-public class HoverableCardName extends ClickableCard {
+public abstract class HoverableCardName extends ClickableCard {
 	private Card card;
 
-	public HoverableCardName(Card cardIn, int x, int y, int x1, int y1) {
-		super(-1, cardIn.getPic(false), x, y, x1, y1);
+	public HoverableCardName(Card cardIn) {
+		super(-1, cardIn.getPic(false));
 		visible = false;
 		card = cardIn;
 	}
 	
 	public void draw(Graphics g)
 	{
-		System.out.println(x + " " + y);
-		System.out.println(card.getName());
+		int x = getX(), y = getY(), x1 = getX1(), y1 = getY1();
+		//System.out.println(x + " " + y);
+		//System.out.println(card.getName());
 		//g.drawImage(image, 0, 0, 300, 400, null);
 		g.setColor(card.getColorBase());
 		//g.drawRect(x, y, x1, y1);

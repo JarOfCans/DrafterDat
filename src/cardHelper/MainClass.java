@@ -89,10 +89,11 @@ public class MainClass extends JFrame implements KeyListener, MouseListener, Mou
 	private Page cScreen;
 	private ClassicDraftTable table;
 	public static final Font BASICFONT = new Font("Arial",Font.PLAIN,20);
+	public static final Font SMOLFONT = new Font("Arial", Font.PLAIN,16);
 	public int imageHeight = (int)(523/1.5);
 	public int imageWidth = (int)(375/1.5);
 	public static final Color DDGREEN = Color.decode("#A8DEF0");
-	public static final Color DDTEAL = Color.decode("#00F0EC");
+	public static final Color DDTEAL = Color.decode("#03E0DF");
 	/**
 	 * int that will store miliseconds since the last repaint;.
 	 */
@@ -135,7 +136,7 @@ public class MainClass extends JFrame implements KeyListener, MouseListener, Mou
 		//setSize(screenWidth,screenHeight);
 		initPaint();
 		addKeyListener(this);
-		setMinimumSize(new Dimension(1200, 800));
+		setMinimumSize(new Dimension(1100, 850));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//createBufferStrategy(4);
 		//bs = this.getBufferStrategy();
@@ -187,7 +188,7 @@ public class MainClass extends JFrame implements KeyListener, MouseListener, Mou
 			try {
 				super.paintComponent(cellar);
 				cellar.setFont(new Font("Arial",Font.PLAIN,20));
-				screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				screenSize = getBounds().getSize();
 				screenHeight = (int)screenSize.getHeight();
 				screenWidth = (int)screenSize.getWidth();
 				cScreen.draw(cellar);

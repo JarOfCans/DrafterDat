@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
-public class ClickableTextBox extends ClickableButton {
+public abstract class ClickableTextBox extends ClickableButton {
 	private boolean selected;
 	private String text;
 	/**
@@ -18,8 +18,8 @@ public class ClickableTextBox extends ClickableButton {
 	 * @param font Font of the Text box.
 	 * @param color Color of the border of the Text box.
 	 */
-	public ClickableTextBox(String words, int x, int y, int x1, int y1, Font font, Color color) {
-		super(words, x, y, x1, y1, font, color);
+	public ClickableTextBox(String words, Font font, Color color) {
+		super(words, font, color);
 		type = "button";
 		selected = false;
 		text = "";
@@ -46,6 +46,7 @@ public class ClickableTextBox extends ClickableButton {
 	public void draw(Graphics g)
 	{
 		g.setColor(color);
+		int x = getX(), y = getY(), x1 = getX1(), y1 = getY1();
 		g.drawRect(x, y, x1, y1);
 		if (selected) {
 			g.drawRect(x + 1, y + 1, x1 - 2, y1 - 2);
