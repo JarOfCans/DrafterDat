@@ -21,8 +21,9 @@ public class Collection extends Page {
 	public int viewPage;
 	public int maxPage;
 	public Set viewSet;
-	private static int imageHeight = (int)(523/1.5);
-	private static int imageWidth = (int)(375/1.5);
+	private static double diviser = 1.5;
+	private static int imageHeight = 523;
+	private static int imageWidth = 375;
 	private ArrayList<Card> setCards;
 	private int sortIndex;
 	private String [] colorStat;
@@ -58,38 +59,31 @@ public class Collection extends Page {
 	}
 	@Override
 	public void draw(Graphics cellar) {
+		if (MainClass.screenWidth <= 1220) {
+			//System.out.println("Small");
+			diviser = 2;
+		}
+		else {
+			//System.out.println("Large");
+			diviser = 1.5;
+		}
 			//int startx = 20;
 			//int starty = 20;
 			cellar.setColor(Color.decode("#000000"));
 			cellar.setFont(new Font("Arial",Font.PLAIN,20));
-			//cellar.drawString("Packs: "+Integer.toString(viewedSet.getPackTotal()), screenWidth-200, 300);
-			//for (int i = 1;i <= 8;i++){
-				//if (i+(8*main.viewPage)<=main.viewedSet.getSetSize()){
-			//TB.fulladdclick(main.viewedSet.getCard(i+(8*main.viewPage)-1).getPic(main.flip),20+(imageWidth*((i-1)%4)),(int)(20+(imageHeight+30)*Math.floor((i-1)/4)),imageWidth, imageHeight);
-			//cellar.drawString(Integer.toString(getEditValue(main.viewedSet.getCard(i+(8*main.viewPage)-1))), 20+imageWidth/2+(imageWidth*((i-1)%4)), (int)(10+(imageHeight+30)*Math.floor((i+3)/4)));
-			//}
-			//}
 			int m = 0;
 			for (Clickable yep:click) {
-				if (yep.type.equals("card")) {
+				if (yep instanceof ClickableCard) {
 					Card thatcard = setCards.get(Integer.parseInt(yep.word));
 					cellar.drawString( thatcard.q1+", "+thatcard.q2+", "+thatcard.q3+", "+thatcard.q4+" = "+thatcard.getqt() + "  " + thatcard.winrateString(),
-							22+(imageWidth*((m%8)%4)),(int)(40+(imageHeight+30)*Math.floor((m++%8)/4)+imageHeight));
+							22+(getImageWidth()*((m%8)%4)),(int)(30*Math.floor((m++%8)/4)+MainClass.screenHeight)-60);
 				}
 			}
-			//cellar.drawString(main.editView, 1200, 240);
-			/*if (main.editnum-1<5&&main.editnum>0) {
-				cellar.drawString("White: "+main.viewedSet.qstats[0][main.editnum-1], 1200, 100);
-				cellar.drawString("Blue: "+main.viewedSet.qstats[1][main.editnum-1], 1200, 120);
-				cellar.drawString("Black: "+main.viewedSet.qstats[2][main.editnum-1], 1200, 140);
-				cellar.drawString("Red: "+main.viewedSet.qstats[3][main.editnum-1], 1200, 160);
-				cellar.drawString("Green: "+main.viewedSet.qstats[4][main.editnum-1], 1200, 180);
-			}*/
-			cellar.drawString("White:"+colorStat[0], 1200, 100);
-			cellar.drawString("Blue:"+colorStat[1], 1200, 120);
-			cellar.drawString("Black:"+colorStat[2], 1200, 140);
-			cellar.drawString("Red:"+colorStat[3], 1200, 160);
-			cellar.drawString("Green:"+colorStat[4], 1200, 180);
+			cellar.drawString("White:"+colorStat[0], MainClass.screenWidth - 150, 180);
+			cellar.drawString("Blue:"+colorStat[1], MainClass.screenWidth - 150, 200);
+			cellar.drawString("Black:"+colorStat[2], MainClass.screenWidth - 150, 220);
+			cellar.drawString("Red:"+colorStat[3], MainClass.screenWidth - 150, 240);
+			cellar.drawString("Green:"+colorStat[4], MainClass.screenWidth - 150, 260);
 			cellar.drawString(SORT_STYLES[sortIndex], MainClass.screenWidth - 150, 140);
 			//TODO
 			/*cellar.setColor(Color.yellow);
@@ -264,9 +258,9 @@ public class Collection extends Page {
 		}
 	}
 	public static int getImageWidth() {
-		return imageWidth;
+		return (int)(imageWidth / diviser);
 	}
 	public static int getImageHeight() {
-		return imageHeight;
+		return (int)(imageHeight / diviser);
 	}
 }
